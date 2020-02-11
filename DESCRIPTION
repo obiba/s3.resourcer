@@ -15,11 +15,12 @@ Description: This package uses Amazon Web Services resources, located in S3 file
 License: LGPL (>= 2.1)
 LazyData: true
 Depends:
-    resourcer,
-    httr
+    R6,
+    resourcer
 Suggests:
+    aws.s3,
     testthat,
-    aws.s3
+    knitr
 BugReports: https://github.com/obiba/aws.resourcer
 RoxygenNote: 7.0.2
 VignetteBuilder: knitr
