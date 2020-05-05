@@ -28,7 +28,7 @@
             "key": "obj",
             "type": "string",
             "title": "Object key",
-            "description": "The S3 object key. The file name extension is expected to be `.rdata` or `.rda` (case is ignored)."
+            "description": "The S3 object key."
           },
           {
             "key": "format",
