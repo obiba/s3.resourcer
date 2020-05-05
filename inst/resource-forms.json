@@ -66,7 +66,7 @@
       "name": "s3-tidy-file",
       "title": "Tidy data file - MongoDB GridFS",
       "description": "File resource in tidy format, having a reader in the [tidyverse](https://www.tidyverse.org) ecosystem. The file will be downloaded from the GridFS file store of a MongoDB server.",
-      "tags": ["gridfs", "data-file", "tidy-format"],
+      "tags": ["s3", "data-file", "tidy-format"],
       "parameters": {
         "$schema": "http://json-schema.org/schema#",
         "type": "array",
