@@ -1,0 +1,177 @@
+{
+  "title": "AWS S3 Resources",
+  "description": "File resources that can be retrieved from an Amazon Web Services S3 file store.",
+  "tags": [
+    {
+      "name": "s3",
+      "title": "AWS S3",
+      "description": "The resource is in an Amazon Web Services S3 file store."
+    }
+  ],
+  "forms": [
+    {
+      "name": "s3-rdata-file",
+      "title": "R data file - AWS S3",
+      "description": "File resource in R data format. The file will be downloaded from an Amazon Web Services S3 file store.",
+      "tags": ["s3", "data-file", "rdata-format"],
+      "parameters": {
+        "$schema": "http://json-schema.org/schema#",
+        "type": "array",
+        "items": [
+          {
+            "key": "bucket",
+            "type": "string",
+            "title": "Bucket",
+            "description": "The S3 bucket name."
+          },
+          {
+            "key": "obj",
+            "type": "string",
+            "title": "Object key",
+            "description": "The S3 object key. The file name extension is expected to be `.rdata` or `.rda` (case is ignored)."
+          },
+          {
+            "key": "format",
+            "type": "string",
+            "title": "R object class",
+            "description": "The primary class of the R object that is being loaded from the R data file. When there are several objects of this class, the one with the symbol with same name as the resource is chosen, otherwise the first one is selected."
+          }
+        ],
+        "required": [
+          "bucket", "object", "format"
+        ]
+      },
+      "credentials": {
+        "$schema": "http://json-schema.org/schema#",
+        "type": "array",
+        "description": "Credentials are optional. If not provided, it will default to AWS environment variables (if they exist).",
+        "items": [
+          {
+            "key": "awskey",
+            "type": "string",
+            "title": "AWS key",
+            "description": "The AWS Access Key ID. If missing, defaults to value stored in environment variable `AWS_ACCESS_KEY_ID`."
+          },
+          {
+            "key": "awssecret",
+            "type": "string",
+            "title": "AWS secret",
+            "format": "password",
+            "description": "The AWS Secret Access Key. If missing, defaults to value stored in environment variable `AWS_SECRET_ACCESS_KEY`."
+          }
+        ]
+      }
+    },
+    {
+      "name": "s3-tidy-file",
+      "title": "Tidy data file - MongoDB GridFS",
+      "description": "File resource in tidy format, having a reader in the [tidyverse](https://www.tidyverse.org) ecosystem. The file will be downloaded from the GridFS file store of a MongoDB server.",
+      "tags": ["gridfs", "data-file", "tidy-format"],
+      "parameters": {
+        "$schema": "http://json-schema.org/schema#",
+        "type": "array",
+        "items": [
+          {
+            "key": "bucket",
+            "type": "string",
+            "title": "Bucket",
+            "description": "The S3 bucket name."
+          },
+          {
+            "key": "obj",
+            "type": "string",
+            "title": "Object key",
+            "description": "The S3 object key."
+          },
+          {
+            "key": "format",
+            "type": "string",
+            "title": "Format",
+            "description": "Data format that can help when trying to coerce the file content to a data.frame.",
+            "enum": [
+              {
+                "key": "csv",
+                "title": "CSV (comma delimiter)"
+              },
+              {
+                "key": "csv2",
+                "title": "CSV2 (semicolon delimiter)"
+              },
+              {
+                "key": "ssv",
+                "title": "SSV (space delimiter)"
+              },
+              {
+                "key": "tsv",
+                "title": "TSV (tab delimiter)"
+              },
+              {
+                "key": "spss",
+                "title": "SPSS"
+              },
+              {
+                "key": "sav",
+                "title": "SAV"
+              },
+              {
+                "key": "por",
+                "title": "POR"
+              },
+              {
+                "key": "stata",
+                "title": "STATA"
+              },
+              {
+                "key": "dta",
+                "title": "DTA"
+              },
+              {
+                "key": "sas",
+                "title": "SAS"
+              },
+              {
+                "key": "xpt",
+                "title": "XPT"
+              },
+              {
+                "key": "excel",
+                "title": "EXCEL"
+              },
+              {
+                "key": "xls",
+                "title": "XLS"
+              },
+              {
+                "key": "xlsx",
+                "title": "XLSX"
+              }
+            ]
+          }
+        ],
+        "required": [
+          "bucket", "object", "format"
+        ]
+      },
+      "credentials": {
+        "$schema": "http://json-schema.org/schema#",
+        "type": "array",
+        "description": "Credentials are optional. If not provided, it will default to AWS environment variables (if they exist).",
+        "items": [
+          {
+            "key": "awskey",
+            "type": "string",
+            "title": "AWS key",
+            "description": "The AWS Access Key ID. If missing, defaults to value stored in environment variable `AWS_ACCESS_KEY_ID`."
+          },
+          {
+            "key": "awssecret",
+            "type": "string",
+            "title": "AWS secret",
+            "format": "password",
+            "description": "The AWS Secret Access Key. If missing, defaults to value stored in environment variable `AWS_SECRET_ACCESS_KEY`."
+          }
+        ]
+      }
+    }
+  ]
+}
