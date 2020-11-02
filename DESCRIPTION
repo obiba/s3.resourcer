@@ -1,6 +1,6 @@
-Package: aws.resourcer
+Package: s3.resourcer
 Type: Package
-Title: AWS Resource Resolver
+Title: S3 Resource Resolver
 Version: 0.8.0
 Authors@R:
     c(person(given = "Yannick",
@@ -11,7 +11,7 @@ Authors@R:
       person("OBiBa group",
              role="cph",
              email="info@obiba.org"))
-Description: This package uses Amazon Web Services resources, located in S3 file store.
+Description: This package uses S3 compatible resources, such as Amazon Web Services S3 or minio object stores.
 License: LGPL (>= 2.1)
 LazyData: true
 Depends:
@@ -21,7 +21,7 @@ Suggests:
     aws.s3,
     testthat,
     knitr
-BugReports: https://github.com/obiba/aws.resourcer
+BugReports: https://github.com/obiba/s3.resourcer
 RoxygenNote: 7.0.2
 VignetteBuilder: knitr
 Encoding: UTF-8
