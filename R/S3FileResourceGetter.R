@@ -48,7 +48,11 @@ S3FileResourceGetter <- R6::R6Class(
           
         } else {
           bucket <- dirname(url$path)
-          aws.s3::save_object(object = fileName, bucket = bucket, base_url = paste0(url$host, ":", url$port), 
+          base_url <- url$host
+          if (!is.null(url$port)) {
+            base_url <- paste0(url$host, ":", url$port)
+          }
+          aws.s3::save_object(object = fileName, bucket = bucket, base_url = base_url, 
                               use_https = (url$scheme == "minio+https"), region = "", 
                               file = path, overwrite = TRUE,
                               key = resource$identity, secret = resource$secret)
