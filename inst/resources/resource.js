@@ -1,4 +1,4 @@
-var aws_resourcer = {
+var s3_resourcer = {
   settings: {
     "title": "S3 Resources",
     "description": "File resources that can be retrieved from an Amazon Web Services S3 or Minio file stores.",
