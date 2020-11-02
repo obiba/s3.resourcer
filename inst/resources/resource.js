@@ -498,12 +498,12 @@ var s3_resourcer = {
       },
       "s3-tidy-file": toS3Resource,
       "minio-rdata-file": function(name, params, credentials) {
-          return toRdataFormat(toS3Resource(name, params, credentials));
+          return toRdataFormat(toMinioResource(name, params, credentials));
       },
       "minio-rds-file": function(name, params, credentials) {
-          return toRDSFormat(toS3Resource(name, params, credentials));
+          return toRDSFormat(toMinioResource(name, params, credentials));
       },
-      "minio-tidy-file": toS3Resource
+      "minio-tidy-file": toMinioResource
     };
 
     // Check if there is a resource factory function for the requested resource form type
