@@ -1,6 +1,8 @@
 #' AWS S3 file resource getter
 #'
-#' Access a file that is in the Amazon Web Services S3 file store. The host name is the bucket name. Credentials may apply.
+#' Access a file that is in the Amazon Web Services S3 file store or in a S3 compatible file store such as Minio. 
+#' For AWS S3 the host name is the bucket name. For Minio, the url will include http or https base protocol. 
+#' Credentials may apply.
 #'
 #' @docType class
 #' @format A R6 object of class S3FileResourceGetter
@@ -15,12 +17,13 @@ S3FileResourceGetter <- R6::R6Class(
     #' @return A S3FileResourceGetter object.
     initialize = function() {},
 
-    #' @description Check that the provided resource has a URL that locates a file accessible through "s3" or "aws" protocol (i.e. using AWS S3 file store API).
+    #' @description Check that the provided resource has a URL that locates a file accessible through "s3" protocol or 
+    #' "minio+http" or "minio+https" protocol (i.e. using Minio implementation of the AWS S3 file store API over HTTP).
     #' @param resource The resource object to validate.
     #' @return A logical.
     isFor = function(resource) {
       if (super$isFor(resource)) {
-        super$parseURL(resource)$scheme %in% c("s3", "aws")
+        super$parseURL(resource)$scheme %in% c("s3", "minio+http", "minio+https")
       } else {
         FALSE
       }
@@ -35,10 +38,21 @@ S3FileResourceGetter <- R6::R6Class(
         fileName <- super$extractFileName(resource)
         downloadDir <- super$makeDownloadDir()
         path <- file.path(downloadDir, fileName)
+        url <- httr::parse_url(resource$url)
 
         private$loadS3()
-        aws.s3::save_object(url$path, bucket = url$host, file = path, overwrite = TRUE,
-                            key = resource$identity, secret = resource$secret)
+        if (url$scheme == "s3") {
+          aws.s3::save_object(object = url$path, bucket = url$host, 
+                              file = path, overwrite = TRUE,
+                              key = resource$identity, secret = resource$secret)
+          
+        } else {
+          bucket <- dirname(url$path)
+          aws.s3::save_object(object = fileName, bucket = bucket, base_url = paste0(url$host, ":", url$port), 
+                              use_https = (url$scheme == "minio+https"), region = "", 
+                              file = path, overwrite = TRUE,
+                              key = resource$identity, secret = resource$secret)
+        }
         super$newFileObject(path, temp = TRUE)
       } else {
         NULL
