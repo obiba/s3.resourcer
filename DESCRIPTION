@@ -1,7 +1,7 @@
 Package: s3.resourcer
 Type: Package
 Title: S3 Resource Resolver
-Version: 0.8.0
+Version: 1.0.0
 Authors@R:
     c(person(given = "Yannick",
              family = "Marcon",
@@ -16,12 +16,12 @@ License: LGPL (>= 2.1)
 LazyData: true
 Depends:
     R6,
-    resourcer
+    resourcer,
+    aws.s3
 Suggests:
-    aws.s3,
     testthat,
     knitr
 BugReports: https://github.com/obiba/s3.resourcer
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Encoding: UTF-8

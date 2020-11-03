@@ -6,7 +6,7 @@
 #'
 #' @docType class
 #' @format A R6 object of class S3FileResourceGetter
-#' @import R6 resourcer
+#' @import R6 resourcer aws.s3
 #' @export
 S3FileResourceGetter <- R6::R6Class(
   "S3FileResourceGetter",

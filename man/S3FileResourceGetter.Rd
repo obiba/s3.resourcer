@@ -4,14 +4,18 @@
 \name{S3FileResourceGetter}
 \alias{S3FileResourceGetter}
 \title{AWS S3 file resource getter}
-\format{A R6 object of class S3FileResourceGetter}
+\format{
+A R6 object of class S3FileResourceGetter
+}
 \description{
 AWS S3 file resource getter
 
 AWS S3 file resource getter
 }
 \details{
-Access a file that is in the Amazon Web Services S3 file store. The host name is the bucket name. Credentials may apply.
+Access a file that is in the Amazon Web Services S3 file store or in a S3 compatible file store such as Minio. 
+For AWS S3 the host name is the bucket name. For Minio, the url will include http or https base protocol. 
+Credentials may apply.
 }
 \section{Super class}{
 \code{\link[resourcer:FileResourceGetter]{resourcer::FileResourceGetter}} -> \code{S3FileResourceGetter}
@@ -35,6 +39,7 @@ Access a file that is in the Amazon Web Services S3 file store. The host name is
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new S3FileResourceGetter instance.
 \subsection{Usage}{
@@ -47,8 +52,10 @@ A S3FileResourceGetter object.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-isFor"></a>}}
+\if{latex}{\out{\hypertarget{method-isFor}{}}}
 \subsection{Method \code{isFor()}}{
-Check that the provided resource has a URL that locates a file accessible through "s3" or "aws" protocol (i.e. using AWS S3 file store API).
+Check that the provided resource has a URL that locates a file accessible through "s3" protocol or 
+"minio+http" or "minio+https" protocol (i.e. using Minio implementation of the AWS S3 file store API over HTTP).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{S3FileResourceGetter$isFor(resource)}\if{html}{\out{</div>}}
 }
@@ -66,6 +73,7 @@ A logical.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-downloadFile"></a>}}
+\if{latex}{\out{\hypertarget{method-downloadFile}{}}}
 \subsection{Method \code{downloadFile()}}{
 Download the file from the remote address in a temporary location. Applies authentication if credentials are provided in the resource.
 \subsection{Usage}{
@@ -87,6 +95,7 @@ The "resource.file" object.
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
