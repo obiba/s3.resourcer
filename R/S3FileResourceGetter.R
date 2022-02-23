@@ -18,12 +18,12 @@ S3FileResourceGetter <- R6::R6Class(
     initialize = function() {},
 
     #' @description Check that the provided resource has a URL that locates a file accessible through "s3" protocol or 
-    #' "minio+http" or "minio+https" protocol (i.e. using Minio implementation of the AWS S3 file store API over HTTP).
+    #' "s3+http" or "s3+https" protocol (i.e. using Minio implementation of the AWS S3 file store API over HTTP).
     #' @param resource The resource object to validate.
     #' @return A logical.
     isFor = function(resource) {
       if (super$isFor(resource)) {
-        super$parseURL(resource)$scheme %in% c("s3", "minio+http", "minio+https")
+        super$parseURL(resource)$scheme %in% c("s3", "s3+http", "s3+https")
       } else {
         FALSE
       }
@@ -53,7 +53,7 @@ S3FileResourceGetter <- R6::R6Class(
             base_url <- paste0(url$host, ":", url$port)
           }
           aws.s3::save_object(object = fileName, bucket = bucket, base_url = base_url, 
-                              use_https = (url$scheme == "minio+https"), region = "", 
+                              use_https = (url$scheme == "s3+https"), region = "", 
                               file = path, overwrite = TRUE,
                               key = resource$identity, secret = resource$secret)
         }

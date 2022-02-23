@@ -55,7 +55,7 @@ A S3FileResourceGetter object.
 \if{latex}{\out{\hypertarget{method-isFor}{}}}
 \subsection{Method \code{isFor()}}{
 Check that the provided resource has a URL that locates a file accessible through "s3" protocol or 
-"minio+http" or "minio+https" protocol (i.e. using Minio implementation of the AWS S3 file store API over HTTP).
+"s3+http" or "s3+https" protocol (i.e. using Minio implementation of the AWS S3 file store API over HTTP).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{S3FileResourceGetter$isFor(resource)}\if{html}{\out{</div>}}
 }

@@ -16,12 +16,14 @@ License: LGPL (>= 2.1)
 LazyData: true
 Depends:
     R6,
-    resourcer,
-    aws.s3
+    httr,
+    resourcer (>= 1.2),
+    aws.s3,
+    sparklyr
 Suggests:
     testthat,
     knitr
 BugReports: https://github.com/obiba/s3.resourcer
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 Encoding: UTF-8
