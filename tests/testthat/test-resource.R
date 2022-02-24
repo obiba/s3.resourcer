@@ -40,12 +40,12 @@ test_that("Minio resource builder works", {
 test_that("Spark Minio resource builder works", {
   res <- newResource(
     name = "CNSIM3",
-    url = "spark+s3+http://127.0.0.1:9000/stejustine/patient_delta?read=delta",
+    url = "s3+spark+http://127.0.0.1:9000/stejustine/patient_delta?read=delta",
     identity = "minio",
     secret = "minio123"
   )
   expect_equal(res$name, "CNSIM3")
-  expect_equal(res$url, "spark+s3+http://127.0.0.1:9000/stejustine/patient_delta?read=delta")
+  expect_equal(res$url, "s3+spark+http://127.0.0.1:9000/stejustine/patient_delta?read=delta")
   expect_equal(res$identity, "minio")
   expect_equal(res$secret, "minio123")
   expect_equal(class(res), "resource")

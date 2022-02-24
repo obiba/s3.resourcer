@@ -18,11 +18,11 @@ S3SparkResourceConnector <- R6::R6Class(
     initialize = function() {},
     
     #' @description Check if the provided resource applies to a Apache Spark server.
-    #'   The resource URL scheme must be one of "spark+s3", "spark+s3+http" or "spark+s3+https".
+    #'   The resource URL scheme must be one of "s3+spark", "s3+spark+http" or "s3+spark+https".
     #' @param resource The resource object to validate.
     #' @return A logical.
     isFor = function(resource) {
-      "resource" %in% class(resource) && super$parseURL(resource)$scheme %in% c("spark+s3", "spark+s3+http", "spark+s3+https")
+      "resource" %in% class(resource) && super$parseURL(resource)$scheme %in% c("s3+spark", "s3+spark+http", "s3+spark+https")
     },
     
     #' @description Creates a DBI connection object from a Apache Spark resource.
@@ -41,13 +41,13 @@ S3SparkResourceConnector <- R6::R6Class(
         conf$`spark.hadoop.fs.s3a.impl` <- "org.apache.hadoop.fs.s3a.S3AFileSystem"
         conf$`spark.hadoop.fs.s3a.aws.credentials.provider` <- "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
         
-        if (identical(url$scheme, "spark+s3")) {
+        if (identical(url$scheme, "s3+spark")) {
           # FIXME host = aws region ?
           conf$`spark.hadoop.fs.s3a.endpoint` <- url$host
           conn <- sparklyr::spark_connect(master = "local", config = conf)
         } else {
           protocol <- "http"
-          if (identical(url$scheme, "spark+s3+https")) {
+          if (identical(url$scheme, "s3+spark+https")) {
             protocol <- "https"
           }
           conf$`spark.hadoop.fs.s3a.endpoint` <- paste0(protocol, "://", url$host, ":", url$port)
@@ -111,7 +111,10 @@ S3SparkResourceConnector <- R6::R6Class(
       if (!require("sparklyr")) {
         install.packages("sparklyr", repos = "https://cloud.r-project.org")
         library(sparklyr)
-        spark_install(version="3.2")
+      }
+      if (is.null(spark_home_dir())) {
+        message("Installing Apache Spark")
+        spark_install(version="3.2.1", hadoop_version = "2.7")
         spark_home_dir()
         # additional jars
         jars <- c("https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/2.7.4/hadoop-aws-2.7.4.jar",

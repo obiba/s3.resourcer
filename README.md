@@ -29,14 +29,14 @@ client$asDataFrame()
 
 ### S3 Spark Connector
 
-The resource is a [Parquet](https://parquet.apache.org/) file which location is described by a URL with scheme `spark+s3` (Amazon Web Services S3 file store) or `spark+s3+http` or `spark+s3+https` (Minio implementation of the S3 API over HTTP). The dataset will not be download as a file: instead of that Apache Sparck will be used to access the resource, with the help of sparklyr. To authenticate, the AWS/Minio key is the resource's identity and the AWS/Minio secret is the resource's secret.
+The resource is a [Parquet](https://parquet.apache.org/) file which location is described by a URL with scheme `s3+spark` (Amazon Web Services S3 file store) or `s3+spark+http` or `s3+spark+https` (Minio implementation of the S3 API over HTTP). The dataset will not be download as a file: instead of that Apache Spark will be used to access the resource, with the help of sparklyr. To authenticate, the AWS/Minio key is the resource's identity and the AWS/Minio secret is the resource's secret.
 
 
 For instance this is a valid resource object that can be accessed by the `S3SparkDBIConnector`:
 
 ```
 library(s3.resourcer)
-res <- resourcer::newResource(url="spark+s3://my_bucket/mtcars")
+res <- resourcer::newResource(url="s3+spark://my_bucket/mtcars")
 client <- resourcer::newResourceClient(res)
 client$asTbl()
 ```
@@ -45,7 +45,7 @@ or
 
 ```
 library(s3.resourcer)
-res <- resourcer::newResource(url="spark+s3+https://minio.example.org/test/mtcars")
+res <- resourcer::newResource(url="s3+spark+https://minio.example.org/test/mtcars")
 client <- resourcer::newResourceClient(res)
 client$asTbl()
 ```
@@ -54,7 +54,7 @@ or for a Parquet file inside a [Delta Lake](https://delta.io/), the query parame
 
 ```
 library(s3.resourcer)
-res <- resourcer::newResource(url="spark+s3+https://minio.example.org/test/mtcars?read=delta")
+res <- resourcer::newResource(url="s3+spark+https://minio.example.org/test/mtcars?read=delta")
 client <- resourcer::newResourceClient(res)
 client$asTbl()
 ```

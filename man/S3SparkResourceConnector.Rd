@@ -55,7 +55,7 @@ A SparkResourceConnector object.
 \if{latex}{\out{\hypertarget{method-isFor}{}}}
 \subsection{Method \code{isFor()}}{
 Check if the provided resource applies to a Apache Spark server.
-  The resource URL scheme must be one of "spark+s3", "spark+s3+http" or "spark+s3+https".
+  The resource URL scheme must be one of "s3+spark", "s3+spark+http" or "s3+spark+https".
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{S3SparkResourceConnector$isFor(resource)}\if{html}{\out{</div>}}
 }

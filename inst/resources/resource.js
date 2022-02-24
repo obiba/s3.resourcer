@@ -7,7 +7,7 @@ var s3_resourcer = {
       {
         "name": "s3",
         "title": "AWS S3 / Minio",
-        "description": "The resource is in an [Amazon Web Services S3](https://aws.amazon.com/s3/) or a [Minio](https://min.io/) file store."
+        "description": "The resource is in an [Amazon Web Services S3](https://aws.amazon.com/s3/) or a [Minio](https://min.io/) file store. The file can be downloaded or accessed through Apache Spark."
       }
     ],
     "types": [
@@ -29,8 +29,8 @@ var s3_resourcer = {
             {
               "key": "obj",
               "type": "string",
-              "title": "Object key",
-              "description": "The S3 object key."
+              "title": "Object path",
+              "description": "The S3 object path."
             },
             {
               "key": "format",
@@ -82,8 +82,8 @@ var s3_resourcer = {
             {
               "key": "obj",
               "type": "string",
-              "title": "Object key",
-              "description": "The S3 object key."
+              "title": "Object path",
+              "description": "The S3 object path."
             },
             {
               "key": "format",
@@ -135,8 +135,8 @@ var s3_resourcer = {
             {
               "key": "obj",
               "type": "string",
-              "title": "Object key",
-              "description": "The S3 object key."
+              "title": "Object path",
+              "description": "The S3 object path."
             },
             {
               "key": "format",
@@ -229,7 +229,7 @@ var s3_resourcer = {
         }
       },
       {
-        "name": "minio-rdata-file",
+        "name": "s3-http-rdata-file",
         "title": "R data file - Minio",
         "description": "File resource in R data format. The file will be downloaded from a Minio file store.",
         "tags": ["s3", "data-file", "rdata-format"],
@@ -246,8 +246,8 @@ var s3_resourcer = {
             {
               "key": "obj",
               "type": "string",
-              "title": "Object key",
-              "description": "The S3 object key."
+              "title": "Object path",
+              "description": "The S3 object path."
             },
             {
               "key": "format",
@@ -257,7 +257,7 @@ var s3_resourcer = {
             }
           ],
           "required": [
-            "bucket", "object", "format"
+            "url", "object", "format"
           ]
         },
         "credentials": {
@@ -282,7 +282,7 @@ var s3_resourcer = {
         }
       },
       {
-        "name": "minio-rds-file",
+        "name": "s3-http-rds-file",
         "title": "RDS file - Minio",
         "description": "File resource in RDS format (serialized single R object). The file will be downloaded from a Minio file store.",
         "tags": ["s3", "data-file", "rdata-format"],
@@ -299,8 +299,8 @@ var s3_resourcer = {
             {
               "key": "obj",
               "type": "string",
-              "title": "Object key",
-              "description": "The S3 object key."
+              "title": "Object path",
+              "description": "The S3 object path."
             },
             {
               "key": "format",
@@ -310,7 +310,7 @@ var s3_resourcer = {
             }
           ],
           "required": [
-            "bucket", "object", "format"
+            "url", "object", "format"
           ]
         },
         "credentials": {
@@ -335,7 +335,7 @@ var s3_resourcer = {
         }
       },
       {
-        "name": "minio-tidy-file",
+        "name": "s3-http-tidy-file",
         "title": "Tidy data file - Minio",
         "description": "File resource in tidy format, having a reader in the [tidyverse](https://www.tidyverse.org) ecosystem. The file will be downloaded from a Minio file store.",
         "tags": ["s3", "data-file", "tidy-format"],
@@ -352,8 +352,8 @@ var s3_resourcer = {
             {
               "key": "obj",
               "type": "string",
-              "title": "Object key",
-              "description": "The S3 object key."
+              "title": "Object path",
+              "description": "The S3 object path."
             },
             {
               "key": "format",
@@ -444,6 +444,132 @@ var s3_resourcer = {
             }
           ]
         }
+      },
+      {
+        "name": "s3-spark",
+        "title": "Spark - AWS S3",
+        "description": "File resource in Parquet format stored in a AWS S3 file store. The file will be accessed using Spark.",
+        "tags": ["s3", "database", "analytics"],
+        "parameters": {
+          "$schema": "http://json-schema.org/schema#",
+          "type": "array",
+          "items": [
+            {
+              "key": "bucket",
+              "type": "string",
+              "title": "Bucket",
+              "description": "The S3 bucket name."
+            },
+            {
+              "key": "obj",
+              "type": "string",
+              "title": "Object path",
+              "description": "The S3 object path."
+            },
+            {
+              "key": "read",
+              "type": "string",
+              "title": "File read strategy",
+              "description": "How Spark should read the file.",
+              "enum": [
+                {
+                  "key": "parquet",
+                  "title":"Parquet read"
+                },
+                {
+                  "key": "delta",
+                  "title":"Delta Lake read"
+                }
+              ]
+            }
+          ],
+          "required": [
+            "bucket", "object", "read"
+          ]
+        },
+        "credentials": {
+          "$schema": "http://json-schema.org/schema#",
+          "type": "array",
+          "description": "Credentials are optional. If not provided, it will default to AWS environment variables (if they exist).",
+          "items": [
+            {
+              "key": "awskey",
+              "type": "string",
+              "title": "Access key",
+              "description": "The Access Key. If missing, defaults to value stored in environment variable `AWS_ACCESS_KEY_ID`."
+            },
+            {
+              "key": "awssecret",
+              "type": "string",
+              "title": "Secret key",
+              "format": "password",
+              "description": "The Secret Key. If missing, defaults to value stored in environment variable `AWS_SECRET_ACCESS_KEY`."
+            }
+          ]
+        }
+      },
+      {
+        "name": "s3-http-spark",
+        "title": "Spark - Minio",
+        "description": "File resource in Parquet format stored in a Minio file store. The file will be accessed using Spark.",
+        "tags": ["s3", "database", "analytics"],
+        "parameters": {
+          "$schema": "http://json-schema.org/schema#",
+          "type": "array",
+          "items": [
+            {
+              "key": "url",
+              "type": "string",
+              "title": "URL",
+              "description": "The minio server base URL."
+            },
+            {
+              "key": "obj",
+              "type": "string",
+              "title": "Object path",
+              "description": "The S3 object path."
+            },
+            {
+              "key": "read",
+              "type": "string",
+              "title": "File read strategy",
+              "description": "How Spark should read the file.",
+              "enum": [
+                {
+                  "key": "parquet",
+                  "title":"Parquet read"
+                },
+                {
+                  "key": "delta",
+                  "title":"Delta Lake read"
+                }
+              ]
+            }
+          ],
+          "required": [
+            "url", "object", "read"
+          ]
+        },
+        "credentials": {
+          "$schema": "http://json-schema.org/schema#",
+          "type": "array",
+          "description": "Credentials are optional. If not provided, it will default to AWS environment variables (if they exist).",
+          "items": [
+            {
+              "key": "awskey",
+              "type": "string",
+              "title": "Access key",
+              "description": "The Access Key. If missing, defaults to value stored in environment variable `AWS_ACCESS_KEY_ID`."
+            },
+            {
+              "key": "awssecret",
+              "type": "string",
+              "title": "Secret key",
+              "format": "password",
+              "description": "The Secret Key. If missing, defaults to value stored in environment variable `AWS_SECRET_ACCESS_KEY`."
+            }
+          ]
+        }
       }
     ]
   },
@@ -465,7 +591,7 @@ var s3_resourcer = {
     var toMinioResource = function(name, params, credentials) {
         return {
             name: name,
-            url: "minio+" + params.url + "/" + params.obj,
+            url: "s3+" + params.url + "/" + params.obj,
             format: params.format,
             identity: credentials.awskey,
             secret: credentials.awssecret
@@ -486,6 +612,24 @@ var s3_resourcer = {
       return resource;
     };
 
+    var toSparkResource = function(name, params, credentials) {
+        return {
+            name: name,
+            url: "s3+spark://" + params.bucket + "/" + params.obj+ "?read=" + params.read,
+            identity: credentials.awskey,
+            secret: credentials.awssecret
+        };
+    };
+    
+    var toMinioSparkResource = function(name, params, credentials) {
+        return {
+            name: name,
+            url: "s3+spark+" + params.url + "/" + params.obj+ "?read=" + params.read,
+            identity: credentials.awskey,
+            secret: credentials.awssecret
+        };
+    };
+
     //
     // Resource factory functions by resource form type
     //
@@ -497,13 +641,15 @@ var s3_resourcer = {
           return toRDSFormat(toS3Resource(name, params, credentials));
       },
       "s3-tidy-file": toS3Resource,
-      "minio-rdata-file": function(name, params, credentials) {
+      "s3-http-rdata-file": function(name, params, credentials) {
           return toRdataFormat(toMinioResource(name, params, credentials));
       },
-      "minio-rds-file": function(name, params, credentials) {
+      "s3-http-rds-file": function(name, params, credentials) {
           return toRDSFormat(toMinioResource(name, params, credentials));
       },
-      "minio-tidy-file": toMinioResource
+      "s3-http-tidy-file": toMinioResource,
+      "s3-spark": toSparkResource,
+      "s3-http-spark": toMinioSparkResource
     };
 
     // Check if there is a resource factory function for the requested resource form type
