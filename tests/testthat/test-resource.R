@@ -41,6 +41,8 @@ test_that("Spark Minio resource builder works", {
   res <- newResource(
     name = "CNSIM3",
     url = "s3+spark+http://127.0.0.1:9000/stejustine/patient_delta?read=delta",
+    #url = "s3+spark+http://localhost:9000/stejustine/patient_delta?read=delta",
+    #url = "s3+spark+https://minio-test.obiba.org/stejustine/patient",
     identity = "minio",
     secret = "minio123"
   )
