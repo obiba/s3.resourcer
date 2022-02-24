@@ -34,10 +34,9 @@ S3SparkResourceConnector <- R6::R6Class(
         private$loadSparklyr()
         url <- super$parseURL(resource)
         
-        Sys.setenv("AWS_ACCESS_KEY_ID" = resource$identity,
-                   "AWS_SECRET_ACCESS_KEY" = resource$secret)
         conf <- spark_config()
-        
+        conf$`spark.hadoop.fs.s3a.access.key` <- resource$identity
+        conf$`spark.hadoop.fs.s3a.secret.key` <- resource$secret
         conf$`spark.hadoop.fs.s3a.impl` <- "org.apache.hadoop.fs.s3a.S3AFileSystem"
         conf$`spark.hadoop.fs.s3a.aws.credentials.provider` <- "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
         
