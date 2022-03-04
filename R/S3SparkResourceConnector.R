@@ -35,10 +35,21 @@ S3SparkResourceConnector <- R6::R6Class(
         url <- super$parseURL(resource)
         
         conf <- spark_config()
+        
+        # FIXME
+        #Sys.setenv("AWS_ACCESS_KEY_ID" = resource$identity, "AWS_SECRET_ACCESS_KEY" = resource$secret)
         conf$`spark.hadoop.fs.s3a.access.key` <- resource$identity
         conf$`spark.hadoop.fs.s3a.secret.key` <- resource$secret
+        
         conf$`spark.hadoop.fs.s3a.impl` <- "org.apache.hadoop.fs.s3a.S3AFileSystem"
         conf$`spark.hadoop.fs.s3a.aws.credentials.provider` <- "org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider"
+        conf$`spark.hadoop.fs.s3a.path.style.access` <- "true"
+        conf$`spark.hadoop.fs.s3a.connection.ssl.enabled` <- "true"
+        if (!is.null(url$query) && !is.null(url$query$read) && url$query$read == "delta") {
+          conf$`spark.sql.extensions` <- "io.delta.sql.DeltaSparkSessionExtension"
+          conf$`spark.sql.catalog.spark_catalog` <- "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+          conf$`spark.databricks.delta.retentionDurationCheck.enabled` <- "false"
+        }
         
         if (identical(url$scheme, "s3+spark")) {
           # FIXME host = aws region ?
@@ -50,7 +61,8 @@ S3SparkResourceConnector <- R6::R6Class(
             protocol <- "https"
           }
           conf$`spark.hadoop.fs.s3a.endpoint` <- paste0(protocol, "://", url$hostname, ifelse(is.null(url$port), "", paste0(":", url$port)))
-          conf$`spark.hadoop.fs.s3a.path.style.access` <- TRUE
+          
+          print(conf)
           conn <- sparklyr::spark_connect(master = "local", config = conf)
         }
       } else {
