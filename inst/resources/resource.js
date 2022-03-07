@@ -1,13 +1,13 @@
 var s3_resourcer = {
   settings: {
     "title": "S3 Resources",
-    "description": "File resources that can be retrieved from an Amazon Web Services S3 or Minio file stores.",
+    "description": "File resources that can be retrieved from an Amazon Web Services S3 or HTTP S3 (ex: Minio) file stores.",
     "web": "https://github.com/obiba/s3.resourcer",
     "categories": [
       {
         "name": "s3",
-        "title": "AWS S3 / Minio",
-        "description": "The resource is in an [Amazon Web Services S3](https://aws.amazon.com/s3/) or a [Minio](https://min.io/) file store. The file can be downloaded or accessed through Apache Spark."
+        "title": "AWS S3 / HTTP S3",
+        "description": "The resource is in an [Amazon Web Services S3](https://aws.amazon.com/s3/) or a HTTP S3 (ex: [Minio](https://min.io/)) file store. The file can be downloaded or accessed through Apache Spark."
       }
     ],
     "types": [
@@ -230,8 +230,8 @@ var s3_resourcer = {
       },
       {
         "name": "s3-http-rdata-file",
-        "title": "R data file - Minio",
-        "description": "File resource in R data format. The file will be downloaded from a Minio file store.",
+        "title": "R data file - HTTP S3",
+        "description": "File resource in R data format. The file will be downloaded from a HTTP S3 (ex: Minio) file store.",
         "tags": ["s3", "data-file", "rdata-format"],
         "parameters": {
           "$schema": "http://json-schema.org/schema#",
@@ -241,7 +241,7 @@ var s3_resourcer = {
               "key": "url",
               "type": "string",
               "title": "URL",
-              "description": "The minio server base URL."
+              "description": "The HTTP S3 server base URL."
             },
             {
               "key": "obj",
@@ -283,8 +283,8 @@ var s3_resourcer = {
       },
       {
         "name": "s3-http-rds-file",
-        "title": "RDS file - Minio",
-        "description": "File resource in RDS format (serialized single R object). The file will be downloaded from a Minio file store.",
+        "title": "RDS file - HTTP S3",
+        "description": "File resource in RDS format (serialized single R object). The file will be downloaded from a HTTP S3 (ex: Minio) file store.",
         "tags": ["s3", "data-file", "rdata-format"],
         "parameters": {
           "$schema": "http://json-schema.org/schema#",
@@ -294,7 +294,7 @@ var s3_resourcer = {
               "key": "url",
               "type": "string",
               "title": "URL",
-              "description": "The minio server base URL."
+              "description": "The HTTP S3 server base URL."
             },
             {
               "key": "obj",
@@ -336,8 +336,8 @@ var s3_resourcer = {
       },
       {
         "name": "s3-http-tidy-file",
-        "title": "Tidy data file - Minio",
-        "description": "File resource in tidy format, having a reader in the [tidyverse](https://www.tidyverse.org) ecosystem. The file will be downloaded from a Minio file store.",
+        "title": "Tidy data file - HTTP S3",
+        "description": "File resource in tidy format, having a reader in the [tidyverse](https://www.tidyverse.org) ecosystem. The file will be downloaded from a HTTP S3 (ex: Minio) file store.",
         "tags": ["s3", "data-file", "tidy-format"],
         "parameters": {
           "$schema": "http://json-schema.org/schema#",
@@ -347,7 +347,7 @@ var s3_resourcer = {
               "key": "url",
               "type": "string",
               "title": "URL",
-              "description": "The minio server base URL."
+              "description": "The HTTP S3 server base URL."
             },
             {
               "key": "obj",
@@ -510,8 +510,8 @@ var s3_resourcer = {
       },
       {
         "name": "s3-http-spark",
-        "title": "Spark - Minio",
-        "description": "File resource in Parquet format stored in a Minio file store. The file will be accessed using Spark.",
+        "title": "Spark - HTTP S3",
+        "description": "File resource in Parquet format stored in a HTTP S3 (ex: Minio) file store. The file will be accessed using Spark.",
         "tags": ["s3", "database", "analytics"],
         "parameters": {
           "$schema": "http://json-schema.org/schema#",
@@ -521,7 +521,7 @@ var s3_resourcer = {
               "key": "url",
               "type": "string",
               "title": "URL",
-              "description": "The minio server base URL."
+              "description": "The HTTP S3 server base URL."
             },
             {
               "key": "obj",
@@ -588,7 +588,7 @@ var s3_resourcer = {
         };
     };
 
-    var toMinioResource = function(name, params, credentials) {
+    var toHttpS3Resource = function(name, params, credentials) {
         return {
             name: name,
             url: "s3+" + params.url + "/" + params.obj,
@@ -621,7 +621,7 @@ var s3_resourcer = {
         };
     };
     
-    var toMinioSparkResource = function(name, params, credentials) {
+    var toHttpS3SparkResource = function(name, params, credentials) {
         return {
             name: name,
             url: "s3+spark+" + params.url + "/" + params.obj+ "?read=" + params.read,
@@ -642,14 +642,14 @@ var s3_resourcer = {
       },
       "s3-tidy-file": toS3Resource,
       "s3-http-rdata-file": function(name, params, credentials) {
-          return toRdataFormat(toMinioResource(name, params, credentials));
+          return toRdataFormat(toHttpS3Resource(name, params, credentials));
       },
       "s3-http-rds-file": function(name, params, credentials) {
-          return toRDSFormat(toMinioResource(name, params, credentials));
+          return toRDSFormat(toHttpS3Resource(name, params, credentials));
       },
-      "s3-http-tidy-file": toMinioResource,
+      "s3-http-tidy-file": toHttpS3Resource,
       "s3-spark": toSparkResource,
-      "s3-http-spark": toMinioSparkResource
+      "s3-http-spark": toHttpS3SparkResource
     };
 
     // Check if there is a resource factory function for the requested resource form type

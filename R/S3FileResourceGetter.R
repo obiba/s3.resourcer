@@ -1,6 +1,6 @@
 #' AWS S3 file resource getter
 #'
-#' Access a file that is in the Amazon Web Services S3 file store or in a S3 compatible file store such as Minio. 
+#' Access a file that is in the Amazon Web Services S3 file store or in a HTTP S3 compatible file store such as Minio. 
 #' For AWS S3 the host name is the bucket name. For Minio, the url will include http or https base protocol. 
 #' Credentials may apply.
 #'
