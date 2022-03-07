@@ -62,7 +62,6 @@ S3SparkResourceConnector <- R6::R6Class(
           }
           conf$`spark.hadoop.fs.s3a.endpoint` <- paste0(protocol, "://", url$hostname, ifelse(is.null(url$port), "", paste0(":", url$port)))
           
-          print(conf)
           conn <- sparklyr::spark_connect(master = "local", config = conf)
         }
       } else {
