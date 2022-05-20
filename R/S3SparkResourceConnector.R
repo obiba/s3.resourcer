@@ -47,7 +47,7 @@ S3SparkResourceConnector <- R6::R6Class(
         conf$`spark.hadoop.fs.s3a.connection.ssl.enabled` <- "true"
         master <- "local"
         version <- NULL
-        invisible(lapply(names(url$query), function(n) {
+        for (n in names(url$query)) {
           if (n == "master") {
             master <- url$query$master
           } else if (n == "version") {
@@ -61,7 +61,7 @@ S3SparkResourceConnector <- R6::R6Class(
           } else {
             conf[n] <- url$query[[n]]
           }
-        }))
+        }
         
         if (identical(url$scheme, "s3+spark")) {
           # FIXME host = aws region ?
