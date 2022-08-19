@@ -31,12 +31,6 @@ Makes a Apache Spark connection object, that is also a DBI connection object, fr
 \item \href{#method-S3SparkResourceConnector-clone}{\code{S3SparkResourceConnector$clone()}}
 }
 }
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
-<ul>
-</ul>
-</details>
-}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-S3SparkResourceConnector-new"></a>}}
 \if{latex}{\out{\hypertarget{method-S3SparkResourceConnector-new}{}}}
