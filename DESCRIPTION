@@ -11,7 +11,9 @@ Authors@R:
       person("OBiBa group",
              role="cph",
              email="info@obiba.org"))
-Description: This package uses S3 compatible resources, such as Amazon Web Services S3 or minio object stores.
+Description: A S3 resource is provided by Amazon Web Services S3 or a S3-compatible object store (such as Minio). 
+    The resource can be a tidy file to be downloaded from the object store, or a data lake (such as Delta Lake) 
+    Parquet file to be read by Apache Spark.
 License: LGPL (>= 2.1)
 LazyData: true
 Depends:
@@ -25,5 +27,4 @@ Suggests:
     knitr
 BugReports: https://github.com/obiba/s3.resourcer
 RoxygenNote: 7.2.1
-VignetteBuilder: knitr
 Encoding: UTF-8
