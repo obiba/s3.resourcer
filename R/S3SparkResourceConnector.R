@@ -66,14 +66,20 @@ S3SparkResourceConnector <- R6::R6Class(
         if (identical(url$scheme, "s3+spark")) {
           # FIXME host = aws region ?
           conf$`spark.hadoop.fs.s3a.endpoint` <- url$host
-          conn <- sparklyr::spark_connect(master = master, version = version, config = conf)
+          conn <- sparklyr::spark_connect(master = master, version = version, config = conf, spark_home = spark_home_dir())
         } else {
           protocol <- "http"
           if (identical(url$scheme, "s3+spark+https")) {
             protocol <- "https"
           }
           conf$`spark.hadoop.fs.s3a.endpoint` <- paste0(protocol, "://", url$hostname, ifelse(is.null(url$port), "", paste0(":", url$port)))
-          conn <- sparklyr::spark_connect(master = master, version = version, config = conf)
+          if (isTRUE(getOption("verbose"))) {
+            print(paste0("master=", master))
+            print(paste0("version=", version))
+            print(paste0("spark_home=", spark_home_dir()))
+            print(conf)
+          }
+          conn <- sparklyr::spark_connect(master = master, version = version, config = conf, spark_home = spark_home_dir())
         }
       } else {
         stop("Resource is not located in Apache Spark")
