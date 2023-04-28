@@ -1,5 +1,12 @@
 language: r
-cache: packages
+cache: packages 
+addons:
+  apt:
+    packages:
+      - libssh-dev
+      - libjq-dev
+      - libharfbuzz-dev
+      - libfribidi-dev
 r_packages:
   - devtools
   - aws.s3
