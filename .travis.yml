@@ -11,6 +11,5 @@ r_packages:
   - devtools
   - aws.s3
   - sparklyr
-r_github_packages:
-  - obiba/resourcer
+  - resourcer
 warnings_are_errors: true
