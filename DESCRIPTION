@@ -25,6 +25,6 @@ Depends:
 Suggests:
     testthat,
     knitr
-BugReports: https://github.com/obiba/s3.resourcer
+BugReports: https://github.com/obiba/s3.resourcer/issues
 RoxygenNote: 7.2.3
 Encoding: UTF-8
