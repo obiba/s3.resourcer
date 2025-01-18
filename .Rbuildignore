@@ -16,3 +16,4 @@
 ^derby.log$
 ^logs$
 ^metastore_db$
+^CRAN-SUBMISSION$
