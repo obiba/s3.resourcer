@@ -16,3 +16,5 @@
 ^derby.log$
 ^logs$
 ^metastore_db$
+^pkgdown$
+^\.github$
